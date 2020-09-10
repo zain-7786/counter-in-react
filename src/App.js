@@ -31,6 +31,7 @@ class App extends React.Component{
     this.remove = this.remove.bind(this);
     this.refreshPage = this.refreshPage.bind(this);
     this.updateItemsCart = this.updateItemsCart.bind(this);
+    this.recyleItems = this.recyleItems.bind(this);
   }
  
   increment(id){
@@ -68,21 +69,27 @@ class App extends React.Component{
     });
   }
   refreshPage() {
-
     window.location.reload(false);
   }
+  recyleItems(){
+    const counters = this.state.counters;
+    if(counters.map(item => 0)){
+      window.location.reload(false);
+    }
+  }
   updateItemsCart(){
+    /*const newCounters = this.state.counters.filter(item => item.value > 0)
+    this.setState({
+      counters: newCounters
+    })*/
     const counters = this.state.counters;
     var c = 0;
     counters.map(item => {
-        if(item.value >= 0){
+        if(item.value > 0){
           c = c+1;
         }
     })
-
     this.setState({itemsCount: c})
-
-    
     /*const counters = this.state.counters;
     let itemsCount = this.state.itemsCount; 
     counters.map(item =>{
@@ -105,7 +112,7 @@ class App extends React.Component{
         </nav>
         <div className='container my-2'>
           <button onClick={() => window.location.reload(false)} className="btn btn-success my-2"><FontAwesomeIcon icon="sync"/></button>
-          <button disabled={this.state.counters === 0? false:true} className="btn btn-info my-2 mx-3"><FontAwesomeIcon icon="recycle"/></button>
+          <button disabled={this.state.counters  ? false:true} onClick={this.recyleItems} className="btn btn-info my-2 mx-3"><FontAwesomeIcon icon="recycle"/></button>
 
           <Item counters={this.state.counters} increment={this.increment} decrement={this.decrement} remove={this.remove}/><br/>
          
